@@ -1,32 +1,38 @@
 # DeparturePixelZhBuilder
 
-DeparturePixelZhBuilder composes the **DeparturePixelZh** and **DeparturePixelZh Compact** font families from a versioned recipe. It preserves a source's selected glyph outlines while normalizing metrics, widths, metadata, and private-use icon coverage.
+[English](README.md) · [简体中文](README.zh-Hans.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
-The builder is licensed under [MIT](LICENSE-MIT). The generated fonts have their own OFL and component-notice requirements in the font repository.
+Build the DeparturePixelZh and DeparturePixelZh Compact fonts from a versioned recipe. The result combines English and Chinese pixel glyphs in one monospaced font, with developer icons.
 
-## Commands
+## Start
+
+Install [uv](https://docs.astral.sh/uv/) and place the DeparturePixelZh font repository beside this repository. Use the builder revision pinned by the font recipe for a release build.
 
 ```sh
-uv run departurepixelzh-builder build --development --recipe ../DeparturePixelZh/recipe.json --output Build
+uv run departurepixelzh-builder build --recipe ../DeparturePixelZh/recipe.json --output Build
 uv run departurepixelzh-builder check --recipe ../DeparturePixelZh/recipe.json --output Build --release
-uv run departurepixelzh-builder install --development --recipe ../DeparturePixelZh/recipe.json --output Build \
-  --destination "$HOME/Library/Fonts" --receipt Local/install.json
-uv run departurepixelzh-builder check-installed --recipe ../DeparturePixelZh/recipe.json \
-  --destination "$HOME/Library/Fonts" --receipt Local/install.json
-uv run departurepixelzh-builder package --recipe ../DeparturePixelZh/recipe.json \
-  --output ../DeparturePixelZh/Build --destination ../DeparturePixelZh/dist
+uv run -m unittest discover -s tests
 ```
 
-`sync` consumes a declared consumer manifest. It copies a verified output, notices, and sanitized provenance together. It never changes a destination whose managed files differ from its recorded hashes.
+For local builder development, add `--development` to `build`. This bypasses the revision pin and does not create a release candidate.
 
-Install creates a durable sibling `receipt.json.install-journal.json` before changing a managed font. A later install rolls that incomplete transaction back from its checksum-addressed `Backups/` copy before it does new work. If a journal or target was changed outside the installer, it stops and reports the exact target for manual recovery.
+## What it does
 
-## How it works
+The recipe fixes the source files and their checksums. The builder selects glyphs, fits them to a shared grid, and writes TTF, WOFF2, coverage maps, checksums, and source records. Latin characters and icons use one cell; full-width characters use two. Compact uses narrower cells. Emoji remain a system fallback.
 
-1. The recipe pins every upstream archive or file with a SHA-256 digest.
-2. Its family order decides which source supplies an overlapping Unicode character. Nerd Fonts owns its private-use mappings.
-3. Each selected source is converted to 1,100 units per em. Latin and icons advance one cell; full-width glyphs advance two.
-4. Cubic 11 outlines are fitted into that grid at the recipe's optical scale. Compact changes advance width from 700/1,400 to 650/1,300 and refits outlines and mark anchors.
-5. The builder writes family metadata, coverage maps, TTF, WOFF2, checksums, and provenance. Emoji stay with the platform fallback.
+[docs/how-it-works.md](docs/how-it-works.md) explains glyph selection and spacing.
 
-See [docs/how-it-works.md](docs/how-it-works.md) for the distinction between an outline's drawing bounds and its advance width.
+## Other commands
+
+- `install` installs verified fonts and records a receipt and backups. An interrupted installation is rolled back before the next install proceeds.
+- `check-installed` checks installed files against the receipt.
+- `sync` copies verified fonts, notices, and source records using a consumer manifest. It stops if managed files have changed outside the tool.
+- `package` prepares an archive from checked output.
+
+Use `uv run departurepixelzh-builder --help` or a command's `--help` for arguments. Installation and synchronization stop on unexpected changes so that recovery can be handled explicitly.
+
+## Scope and license
+
+This builder serves the DeparturePixelZh recipe; it is not a general font editor. It does not add bold, italic, or color emoji.
+
+Original builder code uses [MIT](LICENSE-MIT). Generated fonts have separate OFL and component-license requirements. Keep the font repository's notices with redistributed fonts.
