@@ -1,0 +1,18 @@
+[project]
+name = "departure-pixel-zh-builder"
+version = "0.1.0"
+description = "Reproducible builder for the DeparturePixelZh font family"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE-MIT" }
+dependencies = ["fonttools==4.62.1", "brotli==1.2.0", "uharfbuzz==0.55.0"]
+
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+departurepixelzh-builder = "departure_pixel_zh_builder.cli:main"
+
+[tool.ruff]
+line-length = 100
