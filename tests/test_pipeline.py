@@ -19,7 +19,8 @@ _run_build = build.run_build
 
 def build_development(*args, **kwargs):
     """Fixtures intentionally exercise the explicit unpinned development path."""
-    return _run_build(*args, development=True, **kwargs)
+    kwargs["development"] = True
+    return _run_build(*args, **kwargs)
 
 
 build.run_build = build_development
