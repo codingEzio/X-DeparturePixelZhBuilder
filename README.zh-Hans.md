@@ -4,6 +4,10 @@
 
 按版本化配方构建 DeparturePixelZh 和 DeparturePixelZh Compact，把英文像素字、中文像素字和开发者图标合进一款等宽字体。
 
+[下载 DeparturePixelZh 0.1.0 字体包（ZIP）](https://github.com/codingEzio/DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [所有版本](https://github.com/codingEzio/DeparturePixelZh/releases)
+
+![DeparturePixelZh：一款字体，中英像素等宽](assets/departurepixelzh-social-card.png)
+
 ## 开始
 
 安装 [uv](https://docs.astral.sh/uv/)，把 DeparturePixelZh 字体仓库放在本仓库的同级目录。发布构建请使用字体配方锁定的构建器版本。
@@ -18,7 +22,7 @@ uv run -m unittest discover -s tests
 
 ## 它做什么
 
-配方固定来源文件与校验和。构建器选择字形、适配到共同网格，再生成 TTF、WOFF2、字符覆盖表、校验和及来源记录。英文和图标占一格，全角字符占两格；Compact 使用更窄的格子。emoji 仍使用系统备用字体。
+配方固定来源 URL 和 SHA-256。构建器从这些 URL 下载输入文件，或复用缓存，并按固定的 SHA-256 校验；不会读取 macOS 已安装字体作为构建输入。构建器选择字形、适配到共同网格，再生成 TTF、WOFF2、字符覆盖表、校验和及来源记录。英文和图标占一格，全角字符占两格；Compact 使用更窄的格子。emoji 仍使用系统备用字体。
 
 字形选择与间距说明见 [docs/how-it-works.md](docs/how-it-works.md)。
 
@@ -30,6 +34,14 @@ uv run -m unittest discover -s tests
 - `package`：把检查过的产物打包。
 
 参数见 `uv run departurepixelzh-builder --help` 或各命令的 `--help`。安装和同步遇到意外修改会停止，让恢复操作得到明确处理。
+
+## 可选：对比原版字体
+
+在装有 Homebrew 的 macOS 上，可以安装原版字体做视觉对比。这不是构建前提，安装或使用 DeparturePixelZh 也不需要这一步。
+
+```sh
+brew install --cask font-departure-mono font-cubic-11
+```
 
 ## 范围与许可
 

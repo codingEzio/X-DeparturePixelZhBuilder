@@ -4,6 +4,10 @@
 
 버전이 관리되는 레시피로 DeparturePixelZh와 DeparturePixelZh Compact를 만듭니다. 영문과 중국어 픽셀 글자, 개발자 아이콘을 하나의 고정폭 글꼴로 조합합니다.
 
+[DeparturePixelZh 0.1.0 글꼴 다운로드 (ZIP)](https://github.com/codingEzio/DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [모든 릴리스](https://github.com/codingEzio/DeparturePixelZh/releases)
+
+![DeparturePixelZh — 영문과 중국어 픽셀 글자를 하나의 고정폭 글꼴에](assets/departurepixelzh-social-card.png)
+
 ## 시작
 
 [uv](https://docs.astral.sh/uv/)를 설치하고 DeparturePixelZh 글꼴 저장소를 이 저장소와 같은 상위 디렉터리에 둡니다. 릴리스 빌드에는 글꼴 레시피에 고정된 빌더 리비전을 사용하세요.
@@ -18,7 +22,7 @@ uv run -m unittest discover -s tests
 
 ## 동작
 
-레시피는 입력 파일과 체크섬을 고정합니다. 빌더는 글자를 선택하고 공통 격자에 맞춘 뒤 TTF, WOFF2, 지원 범위, 체크섬, 출처 기록을 생성합니다. 영문과 아이콘은 한 칸, 전각 문자는 두 칸을 사용합니다. Compact는 더 좁은 칸을 사용합니다. 이모지는 시스템 대체 글꼴에 맡깁니다.
+레시피는 소스 URL과 SHA-256을 고정합니다. 빌더는 해당 URL에서 입력 파일을 다운로드하거나 캐시를 재사용하며, 고정된 SHA-256으로 검증합니다. macOS에 설치된 글꼴을 빌드 입력으로 읽지 않습니다. 빌더는 글자를 선택하고 공통 격자에 맞춘 뒤 TTF, WOFF2, 지원 범위, 체크섬, 출처 기록을 생성합니다. 영문과 아이콘은 한 칸, 전각 문자는 두 칸을 사용합니다. Compact는 더 좁은 칸을 사용합니다. 이모지는 시스템 대체 글꼴에 맡깁니다.
 
 글자 선택과 간격은 [docs/how-it-works.md](docs/how-it-works.md)에서 설명합니다.
 
@@ -30,6 +34,14 @@ uv run -m unittest discover -s tests
 - `package`: 검사한 결과물을 아카이브로 만듭니다.
 
 인수는 `uv run departurepixelzh-builder --help` 또는 각 명령의 `--help`를 참고하세요. 설치와 동기화는 예상하지 못한 변경을 발견하면 중지하여 복구를 명시적으로 처리하도록 합니다.
+
+## 선택 사항: 원본 글꼴과 비교
+
+Homebrew가 설치된 macOS에서는 원본 글꼴을 설치해 모양을 비교할 수 있습니다. 빌드의 필수 조건이 아니며, DeparturePixelZh를 설치하거나 사용하는 데도 필요하지 않습니다.
+
+```sh
+brew install --cask font-departure-mono font-cubic-11
+```
 
 ## 범위와 라이선스
 

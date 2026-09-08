@@ -4,6 +4,10 @@
 
 Build the DeparturePixelZh and DeparturePixelZh Compact fonts from a versioned recipe. The result combines English and Chinese pixel glyphs in one monospaced font, with developer icons.
 
+[Download DeparturePixelZh 0.1.0 fonts (ZIP)](https://github.com/codingEzio/DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [All releases](https://github.com/codingEzio/DeparturePixelZh/releases)
+
+![DeparturePixelZh — English and Chinese pixel glyphs in one monospaced font](assets/departurepixelzh-social-card.png)
+
 ## Start
 
 Install [uv](https://docs.astral.sh/uv/) and place the DeparturePixelZh font repository beside this repository. Use the builder revision pinned by the font recipe for a release build.
@@ -18,7 +22,7 @@ For local builder development, add `--development` to `build`. This bypasses the
 
 ## What it does
 
-The recipe fixes the source files and their checksums. The builder selects glyphs, fits them to a shared grid, and writes TTF, WOFF2, coverage maps, checksums, and source records. Latin characters and icons use one cell; full-width characters use two. Compact uses narrower cells. Emoji remain a system fallback.
+The recipe fixes source URLs and SHA-256 hashes. The builder downloads those inputs or reuses cached copies, validating them against the pinned hashes. It never reads installed macOS fonts as build inputs. The builder selects glyphs, fits them to a shared grid, and writes TTF, WOFF2, coverage maps, checksums, and source records. Latin characters and icons use one cell; full-width characters use two. Compact uses narrower cells. Emoji remain a system fallback.
 
 [docs/how-it-works.md](docs/how-it-works.md) explains glyph selection and spacing.
 
@@ -30,6 +34,14 @@ The recipe fixes the source files and their checksums. The builder selects glyph
 - `package` prepares an archive from checked output.
 
 Use `uv run departurepixelzh-builder --help` or a command's `--help` for arguments. Installation and synchronization stop on unexpected changes so that recovery can be handled explicitly.
+
+## Optional: compare the upstream fonts
+
+On macOS with Homebrew, you can install the original fonts for visual comparison. This is not a build prerequisite and is not needed to install or use DeparturePixelZh.
+
+```sh
+brew install --cask font-departure-mono font-cubic-11
+```
 
 ## Scope and license
 
