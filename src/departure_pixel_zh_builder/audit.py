@@ -23,11 +23,15 @@ PRIVATE_PATTERNS = {
 }
 DISALLOWED_ARTIFACT_SUFFIXES = {".ttf", ".otf", ".woff", ".woff2", ".zip", ".pyc"}
 SAFE_PNG = Path("specimens/native-specimen.png")
+SAFE_SOCIAL_CARD_PNG = Path("assets/departurepixelzh-social-card.png")
 MAX_SPECIMEN_PNG_BYTES = 2_000_000
+MAX_SOCIAL_CARD_PNG_BYTES = 1_000_000
 
 
 def png_violation(path, relative):
     """Allow only the inspected public native specimen, with dimension-only EXIF."""
+    if relative == SAFE_SOCIAL_CARD_PNG:
+        return social_card_png_violation(path, relative)
     if relative != SAFE_PNG:
         return f"unexpected binary image: {relative}"
     data = path.read_bytes()
@@ -65,6 +69,44 @@ def png_violation(path, relative):
         or not _dimension_only_exif(exif, dimensions)
     ):
         return f"unsafe specimen PNG metadata: {relative}"
+    return None
+
+
+def social_card_png_violation(path, relative):
+    """Allow one small social card with only pixel data, never embedded metadata."""
+    data = path.read_bytes()
+    if len(data) > MAX_SOCIAL_CARD_PNG_BYTES or not data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return f"unsafe social card PNG metadata: {relative}"
+    position, chunks, dimensions, color_type = 8, [], None, None
+    while position < len(data):
+        if position + 12 > len(data):
+            return f"unsafe social card PNG metadata: {relative}"
+        size = struct.unpack(">I", data[position : position + 4])[0]
+        end = position + 12 + size
+        if end > len(data):
+            return f"unsafe social card PNG metadata: {relative}"
+        kind = data[position + 4 : position + 8]
+        payload = data[position + 8 : position + 8 + size]
+        checksum = data[position + 8 + size : end]
+        if struct.pack(">I", zlib.crc32(kind + payload) & 0xFFFFFFFF) != checksum:
+            return f"unsafe social card PNG metadata: {relative}"
+        chunks.append(kind)
+        if kind == b"IHDR" and len(payload) == 13:
+            dimensions = struct.unpack(">II", payload[:8])
+            color_type = payload[9]
+        position = end
+    allowed = {b"IHDR", b"PLTE", b"IDAT", b"IEND"}
+    if (
+        position != len(data)
+        or dimensions != (1600, 900)
+        or color_type not in {2, 3}
+        or chunks[:1] != [b"IHDR"]
+        or chunks[-1:] != [b"IEND"]
+        or not all(kind in allowed for kind in chunks)
+        or b"IDAT" not in chunks
+        or color_type == 3 and b"PLTE" not in chunks
+    ):
+        return f"unsafe social card PNG metadata: {relative}"
     return None
 
 

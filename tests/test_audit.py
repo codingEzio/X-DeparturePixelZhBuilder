@@ -95,3 +95,31 @@ class AuditTests(unittest.TestCase):
             self.assertEqual(
                 audit(root), ["unsafe specimen PNG metadata: specimens/native-specimen.png"]
             )
+
+    def test_social_card_is_allowed_only_as_a_metadata_free_public_png(self):
+        def chunk(kind, payload):
+            return (
+                struct.pack(">I", len(payload))
+                + kind
+                + payload
+                + struct.pack(">I", zlib.crc32(kind + payload) & 0xFFFFFFFF)
+            )
+
+        social_png = b"\x89PNG\r\n\x1a\n" + b"".join(
+            [
+                chunk(b"IHDR", struct.pack(">IIBBBBB", 1600, 900, 8, 3, 0, 0, 0)),
+                chunk(b"PLTE", b"\x00\x00\x00"),
+                chunk(b"IDAT", zlib.compress(b"\x00\x00")),
+                chunk(b"IEND", b""),
+            ]
+        )
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            card = root / "assets" / "departurepixelzh-social-card.png"
+            card.parent.mkdir()
+            card.write_bytes(social_png)
+            self.assertEqual(audit(root), [])
+            card.write_bytes(social_png.replace(b"IEND", b"tEXt"))
+            self.assertEqual(
+                audit(root), ["unsafe social card PNG metadata: assets/departurepixelzh-social-card.png"]
+            )
