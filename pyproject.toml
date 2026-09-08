@@ -16,3 +16,8 @@ departurepixelzh-builder = "departure_pixel_zh_builder.cli:main"
 
 [tool.ruff]
 line-length = 100
+
+[dependency-groups]
+dev = [
+    "ruff==0.16.6",
+]
