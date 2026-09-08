@@ -102,6 +102,11 @@ def _sync_recovery_root(root):
     return _contained(root, ".departurepixelzh-sync-recovery", "sync recovery directory")
 
 
+def pending_sync_recovery(root):
+    """Whether a prior sync left recovery state that a read-only call must not change."""
+    return _sync_journal(root).exists() or _sync_recovery_root(root).exists()
+
+
 def _restore_sync_backup(root, recovery, key, checksum):
     backup = recovery / key
     if not backup.is_file() or digest(backup) != checksum:
@@ -119,6 +124,11 @@ def recover_pending_sync(root, receipt, manifest_id):
     """Restore an interrupted synchronization before examining a new consumer state."""
     journal, recovery = _sync_journal(root), _sync_recovery_root(root)
     if not journal.exists():
+        if recovery.exists():
+            if not recovery.is_dir() or recovery.is_symlink():
+                raise ValueError("Synchronization recovery is invalid; recover it manually")
+            shutil.rmtree(recovery)
+            return True
         return False
     if (
         not journal.is_file()
@@ -202,7 +212,13 @@ def sync(recipe_path, manifest_path, output, dry_run=False, check=False):
     root, output = manifest_path.parent, Path(output).resolve()
     receipt = _contained(root, manifest["receipt"], "consumer receipt")
     with lock_directory(root, ".departurepixelzh-sync.lock"):
-        recover_pending_sync(root, receipt, manifest["id"])
+        if dry_run or check:
+            if pending_sync_recovery(root):
+                raise ValueError(
+                    "Synchronization recovery is pending; run sync without --dry-run or --check"
+                )
+        else:
+            recover_pending_sync(root, receipt, manifest["id"])
     build_report = check_build(recipe_path, output)
     recipe = json.loads(Path(recipe_path).read_text())
     provenance = json.loads((output / "provenance.json").read_text())

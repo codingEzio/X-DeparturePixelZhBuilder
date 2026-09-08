@@ -183,6 +183,58 @@ class SyncTests(unittest.TestCase):
         self.assertFalse(journal.exists())
         self.assertFalse(recovery.parent.exists())
 
+    def test_read_only_modes_report_pending_recovery_without_changing_it(self):
+        self.apply()
+        receipt_path = self.consumer / ".departurepixelzh-sync.json"
+        receipt_before = json.loads(receipt_path.read_text())
+        target = self.consumer / "Licenses" / "NOTICE.md"
+        old_bytes, old_sha256 = target.read_bytes(), digest(target)
+        new_bytes = b"interrupted replacement\n"
+        new_sha256 = hashlib.sha256(new_bytes).hexdigest()
+        target.write_bytes(new_bytes)
+        recovery = self.consumer / ".departurepixelzh-sync-recovery" / "Licenses"
+        recovery.mkdir(parents=True)
+        (recovery / "NOTICE.md").write_bytes(old_bytes)
+        journal = self.consumer / ".departurepixelzh-sync-journal.json"
+        journal.write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "manifest_id": "sample-consumer",
+                    "receipt_before": receipt_before,
+                    "receipt_after": receipt_before,
+                    "changed": {"Licenses/NOTICE.md": {"before": old_sha256, "after": new_sha256}},
+                    "retired": {},
+                }
+            )
+        )
+        before = {
+            path.relative_to(self.consumer): (path.read_bytes(), path.stat().st_mtime_ns)
+            for path in self.consumer.rglob("*")
+            if path.is_file()
+        }
+
+        for mode in ({"dry_run": True}, {"check": True}):
+            with self.subTest(mode=mode), self.assertRaisesRegex(ValueError, "recovery is pending"):
+                self.apply(**mode)
+            after = {
+                path.relative_to(self.consumer): (path.read_bytes(), path.stat().st_mtime_ns)
+                for path in self.consumer.rglob("*")
+                if path.is_file()
+            }
+            self.assertEqual(after, before)
+
+    def test_normal_sync_discards_an_orphaned_recovery_root(self):
+        self.apply()
+        recovery = self.consumer / ".departurepixelzh-sync-recovery"
+        recovery.mkdir()
+        (recovery / "staged-backup").write_bytes(b"orphaned recovery data")
+
+        result = self.apply()
+
+        self.assertEqual(result["changed"], [])
+        self.assertFalse(recovery.exists())
+
 
 if __name__ == "__main__":
     unittest.main()
