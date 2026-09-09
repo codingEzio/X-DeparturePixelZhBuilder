@@ -1,10 +1,10 @@
-# DeparturePixelZhBuilder
+# X-DeparturePixelZhBuilder
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
 バージョン管理されたレシピからDeparturePixelZhとDeparturePixelZh Compactを生成します。英字と中国語のピクセル字形、開発者向けアイコンを一つの等幅フォントにまとめます。
 
-[DeparturePixelZh 0.1.0フォントをダウンロード（ZIP）](https://github.com/codingEzio/DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [すべてのリリース](https://github.com/codingEzio/DeparturePixelZh/releases)
+[DeparturePixelZh 0.1.0フォントをダウンロード（ZIP）](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [すべてのリリース](https://github.com/codingEzio/X-DeparturePixelZh/releases)
 
 ![DeparturePixelZh — 英字と中国語のピクセル字形を一つの等幅フォントに](assets/departurepixelzh-social-card.png)
 
@@ -13,8 +13,8 @@
 [uv](https://docs.astral.sh/uv/)をインストールし、DeparturePixelZhのフォントリポジトリを本リポジトリと同じ親ディレクトリに置きます。リリース用ビルドでは、フォントのレシピが指定するビルダーのリビジョンを使ってください。
 
 ```sh
-uv run departurepixelzh-builder build --recipe ../DeparturePixelZh/recipe.json --output Build
-uv run departurepixelzh-builder check --recipe ../DeparturePixelZh/recipe.json --output Build --release
+uv run departurepixelzh-builder build --recipe ../X-DeparturePixelZh/recipe.json --output Build
+uv run departurepixelzh-builder check --recipe ../X-DeparturePixelZh/recipe.json --output Build --release
 uv run -m unittest discover -s tests
 ```
 

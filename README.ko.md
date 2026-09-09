@@ -1,10 +1,10 @@
-# DeparturePixelZhBuilder
+# X-DeparturePixelZhBuilder
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
 버전이 관리되는 레시피로 DeparturePixelZh와 DeparturePixelZh Compact를 만듭니다. 영문과 중국어 픽셀 글자, 개발자 아이콘을 하나의 고정폭 글꼴로 조합합니다.
 
-[DeparturePixelZh 0.1.0 글꼴 다운로드 (ZIP)](https://github.com/codingEzio/DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [모든 릴리스](https://github.com/codingEzio/DeparturePixelZh/releases)
+[DeparturePixelZh 0.1.0 글꼴 다운로드 (ZIP)](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [모든 릴리스](https://github.com/codingEzio/X-DeparturePixelZh/releases)
 
 ![DeparturePixelZh — 영문과 중국어 픽셀 글자를 하나의 고정폭 글꼴에](assets/departurepixelzh-social-card.png)
 
@@ -13,8 +13,8 @@
 [uv](https://docs.astral.sh/uv/)를 설치하고 DeparturePixelZh 글꼴 저장소를 이 저장소와 같은 상위 디렉터리에 둡니다. 릴리스 빌드에는 글꼴 레시피에 고정된 빌더 리비전을 사용하세요.
 
 ```sh
-uv run departurepixelzh-builder build --recipe ../DeparturePixelZh/recipe.json --output Build
-uv run departurepixelzh-builder check --recipe ../DeparturePixelZh/recipe.json --output Build --release
+uv run departurepixelzh-builder build --recipe ../X-DeparturePixelZh/recipe.json --output Build
+uv run departurepixelzh-builder check --recipe ../X-DeparturePixelZh/recipe.json --output Build --release
 uv run -m unittest discover -s tests
 ```
 

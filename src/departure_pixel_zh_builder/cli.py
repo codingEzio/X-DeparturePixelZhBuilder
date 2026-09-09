@@ -81,7 +81,7 @@ def main(argv=None):
         else:
             result = package_release(args.recipe, args.output, args.destination)
     except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
-        print(f"DeparturePixelZhBuilder failed: {error}", file=sys.stderr)
+        print(f"X-DeparturePixelZhBuilder failed: {error}", file=sys.stderr)
         return 1
     _print(result)
     return 0

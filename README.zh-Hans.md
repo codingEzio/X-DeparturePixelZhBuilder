@@ -1,10 +1,10 @@
-# DeparturePixelZhBuilder
+# X-DeparturePixelZhBuilder
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
 按版本化配方构建 DeparturePixelZh 和 DeparturePixelZh Compact，把英文像素字、中文像素字和开发者图标合进一款等宽字体。
 
-[下载 DeparturePixelZh 0.1.0 字体包（ZIP）](https://github.com/codingEzio/DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [所有版本](https://github.com/codingEzio/DeparturePixelZh/releases)
+[下载 DeparturePixelZh 0.1.0 字体包（ZIP）](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [所有版本](https://github.com/codingEzio/X-DeparturePixelZh/releases)
 
 ![DeparturePixelZh：一款字体，中英像素等宽](assets/departurepixelzh-social-card.png)
 
@@ -13,8 +13,8 @@
 安装 [uv](https://docs.astral.sh/uv/)，把 DeparturePixelZh 字体仓库放在本仓库的同级目录。发布构建请使用字体配方锁定的构建器版本。
 
 ```sh
-uv run departurepixelzh-builder build --recipe ../DeparturePixelZh/recipe.json --output Build
-uv run departurepixelzh-builder check --recipe ../DeparturePixelZh/recipe.json --output Build --release
+uv run departurepixelzh-builder build --recipe ../X-DeparturePixelZh/recipe.json --output Build
+uv run departurepixelzh-builder check --recipe ../X-DeparturePixelZh/recipe.json --output Build --release
 uv run -m unittest discover -s tests
 ```
 

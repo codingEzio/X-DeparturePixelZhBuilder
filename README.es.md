@@ -1,10 +1,10 @@
-# DeparturePixelZhBuilder
+# X-DeparturePixelZhBuilder
 
 [English](README.md) · [简体中文](README.zh-Hans.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md)
 
 Genera DeparturePixelZh y DeparturePixelZh Compact a partir de una receta versionada. Combina letras inglesas, caracteres chinos de estilo píxel e iconos para desarrolladores en una fuente monoespaciada.
 
-[Descargar fuentes DeparturePixelZh 0.1.0 (ZIP)](https://github.com/codingEzio/DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [Todas las versiones](https://github.com/codingEzio/DeparturePixelZh/releases)
+[Descargar fuentes DeparturePixelZh 0.1.0 (ZIP)](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [Todas las versiones](https://github.com/codingEzio/X-DeparturePixelZh/releases)
 
 ![DeparturePixelZh — letras inglesas y caracteres chinos de estilo píxel en una fuente monoespaciada](assets/departurepixelzh-social-card.png)
 
@@ -13,8 +13,8 @@ Genera DeparturePixelZh y DeparturePixelZh Compact a partir de una receta versio
 Instala [uv](https://docs.astral.sh/uv/) y coloca el repositorio de fuentes DeparturePixelZh en un directorio hermano. Para una compilación de publicación, usa la revisión del constructor fijada por la receta.
 
 ```sh
-uv run departurepixelzh-builder build --recipe ../DeparturePixelZh/recipe.json --output Build
-uv run departurepixelzh-builder check --recipe ../DeparturePixelZh/recipe.json --output Build --release
+uv run departurepixelzh-builder build --recipe ../X-DeparturePixelZh/recipe.json --output Build
+uv run departurepixelzh-builder check --recipe ../X-DeparturePixelZh/recipe.json --output Build --release
 uv run -m unittest discover -s tests
 ```
 

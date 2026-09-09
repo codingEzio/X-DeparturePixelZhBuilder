@@ -200,11 +200,11 @@ def load_recipe(path):
     if (
         not isinstance(builder, dict)
         or set(builder) != {"repository", "revision"}
-        or builder["repository"] != "DeparturePixelZhBuilder"
+        or builder["repository"] != "X-DeparturePixelZhBuilder"
         or not isinstance(builder["revision"], str)
         or not builder["revision"]
     ):
-        raise ValueError("Recipe must identify its DeparturePixelZhBuilder revision")
+        raise ValueError("Recipe must identify its X-DeparturePixelZhBuilder revision")
     if recipe["emoji_policy"] != "system":
         raise ValueError("This engine supports system emoji fallback, not embedded color fonts")
     validate_metrics(recipe["metrics"])

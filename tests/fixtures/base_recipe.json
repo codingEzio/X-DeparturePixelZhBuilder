@@ -34,5 +34,5 @@
   "validation": {"single_cell": "", "double_cell": "", "combining": [], "icons": []},
   "documents": [],
   "license_directory": null,
-  "builder": {"repository": "DeparturePixelZhBuilder", "revision": "development"}
+  "builder": {"repository": "X-DeparturePixelZhBuilder", "revision": "development"}
 }
