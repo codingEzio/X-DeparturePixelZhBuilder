@@ -4,7 +4,9 @@
 
 Build the DeparturePixelZh and DeparturePixelZh Compact fonts from a versioned recipe. The result combines English and Chinese pixel glyphs in one monospaced font, with developer icons.
 
-[Download DeparturePixelZh 0.1.0 fonts (ZIP)](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [All releases](https://github.com/codingEzio/X-DeparturePixelZh/releases)
+[Desktop TTF ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-desktop.zip) · [Web WOFF2 ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-web.zip) · [All releases](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases)
+
+Both downloads include Standard and Compact, source records, checksums, and all license notices. No builder is needed to use the fonts.
 
 ![DeparturePixelZh — English and Chinese pixel glyphs in one monospaced font](assets/departurepixelzh-social-card.png)
 
@@ -31,7 +33,7 @@ The recipe fixes source URLs and SHA-256 hashes. The builder downloads those inp
 - `install` installs verified fonts and records a receipt and backups. An interrupted installation is rolled back before the next install proceeds.
 - `check-installed` checks installed files against the receipt.
 - `sync` copies verified fonts, notices, and source records using a consumer manifest. It stops if managed files have changed outside the tool.
-- `package` prepares an archive from checked output.
+- `package --format desktop` creates a TTF archive; `package --format web` creates a WOFF2 archive. The default `all` includes both formats.
 
 Use `uv run departurepixelzh-builder --help` or a command's `--help` for arguments. Installation and synchronization stop on unexpected changes so that recovery can be handled explicitly.
 

@@ -4,7 +4,9 @@
 
 按版本化配方构建 DeparturePixelZh 和 DeparturePixelZh Compact，把英文像素字、中文像素字和开发者图标合进一款等宽字体。
 
-[下载 DeparturePixelZh 0.1.0 字体包（ZIP）](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [所有版本](https://github.com/codingEzio/X-DeparturePixelZh/releases)
+[桌面安装 TTF ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-desktop.zip) · [网页内置 WOFF2 ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-web.zip) · [所有版本](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases)
+
+两个下载包均含标准版与 Compact、来源记录、校验和及完整许可材料。使用字体无需安装构建器。
 
 ![DeparturePixelZh：一款字体，中英像素等宽](assets/departurepixelzh-social-card.png)
 
@@ -31,7 +33,7 @@ uv run -m unittest discover -s tests
 - `install`：安装验证过的字体，保存记录与备份。安装中断后，下次安装会先回滚未完成操作。
 - `check-installed`：按安装记录检查已安装文件。
 - `sync`：按使用方清单复制字体、许可和来源记录。受管文件在工具之外被修改时，会停止操作。
-- `package`：把检查过的产物打包。
+- `package --format desktop` 生成 TTF 包，`package --format web` 生成 WOFF2 包；默认 `all` 包含两种格式。
 
 参数见 `uv run departurepixelzh-builder --help` 或各命令的 `--help`。安装和同步遇到意外修改会停止，让恢复操作得到明确处理。
 

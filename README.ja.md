@@ -4,7 +4,9 @@
 
 バージョン管理されたレシピからDeparturePixelZhとDeparturePixelZh Compactを生成します。英字と中国語のピクセル字形、開発者向けアイコンを一つの等幅フォントにまとめます。
 
-[DeparturePixelZh 0.1.0フォントをダウンロード（ZIP）](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [すべてのリリース](https://github.com/codingEzio/X-DeparturePixelZh/releases)
+[デスクトップ用 TTF ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-desktop.zip) · [Web 同梱用 WOFF2 ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-web.zip) · [すべてのリリース](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases)
+
+両方のパッケージに標準版と Compact、出典記録、チェックサム、すべてのライセンス文書が含まれます。フォントの利用にビルダーは不要です。
 
 ![DeparturePixelZh — 英字と中国語のピクセル字形を一つの等幅フォントに](assets/departurepixelzh-social-card.png)
 
@@ -31,7 +33,7 @@ uv run -m unittest discover -s tests
 - `install`：検証済みフォントをインストールし、記録とバックアップを保存します。中断された処理は、次のインストール前に元に戻します。
 - `check-installed`：インストール記録と実際のファイルを照合します。
 - `sync`：利用側のマニフェストに従い、フォント、ライセンス文書、出典記録をコピーします。管理対象のファイルが外部で変更されている場合は停止します。
-- `package`：検証済みの出力をアーカイブにします。
+- `package --format desktop` は TTF、`package --format web` は WOFF2 を梱包します。既定の `all` は両形式を含みます。
 
 引数は`uv run departurepixelzh-builder --help`または各コマンドの`--help`で確認できます。インストールと同期は、想定外の変更を検出すると停止し、明示的な復旧を求めます。
 

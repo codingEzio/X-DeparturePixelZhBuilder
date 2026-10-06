@@ -52,6 +52,7 @@ def main(argv=None):
     package_parser.add_argument("--recipe", required=True)
     package_parser.add_argument("--output", required=True)
     package_parser.add_argument("--destination", required=True)
+    package_parser.add_argument("--format", choices=("all", "desktop", "web"), default="all")
     args = parser.parse_args(argv)
     try:
         if args.command == "build":
@@ -79,7 +80,7 @@ def main(argv=None):
         elif args.command == "audit-public":
             result = require_clean(args.root)
         else:
-            result = package_release(args.recipe, args.output, args.destination)
+            result = package_release(args.recipe, args.output, args.destination, args.format)
     except (OSError, ValueError, RuntimeError, KeyError, TypeError) as error:
         print(f"X-DeparturePixelZhBuilder failed: {error}", file=sys.stderr)
         return 1

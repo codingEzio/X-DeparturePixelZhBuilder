@@ -8,19 +8,23 @@ from .build import digest, load_recipe
 from .check import check_build
 
 
-def release_files(recipe, output):
+def release_files(recipe, output, package_format="all"):
     """The full allowlist for a release archive; caches never enter a delivery."""
+    formats = {"all": ("ttf", "woff2"), "desktop": ("ttf",), "web": ("woff2",)}
+    if package_format not in formats:
+        raise ValueError(f"Unknown release package format: {package_format}")
     files = []
     for family in recipe["families"]:
         postscript = family.get("postscript_name", family["name"])
         files.extend(
-            [
-                output / f"{postscript}-Regular.ttf",
-                output / f"{postscript}-Regular.woff2",
-                output / f"{postscript}_coverage.json",
-            ]
+            output / f"{postscript}-Regular.{suffix}" for suffix in formats[package_format]
         )
-    files.extend(output / document for document in recipe["documents"])
+        files.append(output / f"{postscript}_coverage.json")
+    files.extend(
+        output / document
+        for document in recipe["documents"]
+        if package_format != "desktop" or Path(document).suffix.lower() not in {".html", ".css"}
+    )
     files.append(output / "provenance.json")
     license_directory = recipe.get("license_directory")
     if license_directory:
@@ -33,7 +37,7 @@ def release_files(recipe, output):
     return files
 
 
-def package_release(recipe_path, output, destination):
+def package_release(recipe_path, output, destination, package_format="all"):
     """Write a release zip only from a clean, pinned builder and verified output."""
     recipe_path, output, destination = (
         Path(recipe_path).resolve(),
@@ -43,7 +47,9 @@ def package_release(recipe_path, output, destination):
     check_build(recipe_path, output, release=True)
     recipe = {**load_recipe(recipe_path), "_recipe_path": str(recipe_path)}
     root = f"DeparturePixelZh-{recipe['version']}"
-    files = release_files(recipe, output)
+    files = release_files(recipe, output, package_format)
+    if package_format != "all":
+        root += f"-{package_format}"
     if len(set(files)) != len(files) or not all(path.is_file() for path in files):
         raise ValueError("Verified release output is incomplete")
     checksums = "".join(
@@ -74,4 +80,5 @@ def package_release(recipe_path, output, destination):
         "sha256": digest(archive),
         "files": len(files) + 1,
         "manifest": json.loads((output / "provenance.json").read_text())["version"],
+        "format": package_format,
     }

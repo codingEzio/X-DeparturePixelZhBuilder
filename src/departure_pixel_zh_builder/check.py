@@ -152,7 +152,7 @@ def check_build(recipe_path, output, release=False):
         delivered = output / document
         if not delivered.is_file() or digest(delivered) != digest(expected_document):
             raise ValueError(f"Missing or changed release document: {expected_document.name}")
-        if delivered.suffix.lower() == ".html":
+        if delivered.suffix.lower() in {".html", ".css"}:
             verify_document_references(delivered, output)
     if recipe["license_directory"]:
         licenses = recipe_path.parent / recipe["license_directory"]

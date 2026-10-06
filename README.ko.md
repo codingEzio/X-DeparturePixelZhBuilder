@@ -4,7 +4,9 @@
 
 버전이 관리되는 레시피로 DeparturePixelZh와 DeparturePixelZh Compact를 만듭니다. 영문과 중국어 픽셀 글자, 개발자 아이콘을 하나의 고정폭 글꼴로 조합합니다.
 
-[DeparturePixelZh 0.1.0 글꼴 다운로드 (ZIP)](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [모든 릴리스](https://github.com/codingEzio/X-DeparturePixelZh/releases)
+[데스크톱 설치용 TTF ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-desktop.zip) · [웹 포함용 WOFF2 ZIP](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-web.zip) · [모든 릴리스](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases)
+
+두 패키지 모두 기본형과 Compact, 출처 기록, 체크섬, 전체 라이선스 문서를 포함합니다. 글꼴을 사용하기 위해 빌더를 설치할 필요는 없습니다.
 
 ![DeparturePixelZh — 영문과 중국어 픽셀 글자를 하나의 고정폭 글꼴에](assets/departurepixelzh-social-card.png)
 
@@ -31,7 +33,7 @@ uv run -m unittest discover -s tests
 - `install`: 검증한 글꼴을 설치하고 기록과 백업을 저장합니다. 중단된 설치는 다음 설치를 진행하기 전에 되돌립니다.
 - `check-installed`: 설치 기록과 실제 파일을 비교합니다.
 - `sync`: 사용 프로젝트의 매니페스트에 따라 글꼴, 라이선스 문서, 출처 기록을 복사합니다. 관리 파일이 도구 외부에서 변경되었다면 중지합니다.
-- `package`: 검사한 결과물을 아카이브로 만듭니다.
+- `package --format desktop`은 TTF, `package --format web`은 WOFF2를 묶습니다. 기본값 `all`은 두 형식을 포함합니다.
 
 인수는 `uv run departurepixelzh-builder --help` 또는 각 명령의 `--help`를 참고하세요. 설치와 동기화는 예상하지 못한 변경을 발견하면 중지하여 복구를 명시적으로 처리하도록 합니다.
 

@@ -42,7 +42,7 @@ wheels = [
 
 [[package]]
 name = "departure-pixel-zh-builder"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "brotli" },

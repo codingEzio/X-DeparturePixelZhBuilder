@@ -50,12 +50,48 @@ class PackageTests(unittest.TestCase):
         (self.output / "Licenses").mkdir()
         (self.output / "Licenses" / "Required.txt").write_text("required notice\n")
 
-    def package(self):
+    def package(self, package_format="all"):
         with (
             patch.object(package, "check_build"),
             patch.object(package, "load_recipe", return_value=self.recipe),
         ):
-            return package.package_release(self.recipe_path, self.output, self.destination)
+            return package.package_release(
+                self.recipe_path, self.output, self.destination, package_format=package_format
+            )
+
+    def test_desktop_and_web_packages_keep_notices_and_resolve_web_assets(self):
+        self.recipe["documents"].append("web/fonts.css")
+        (self.output / "web").mkdir()
+        (self.output / "web" / "fonts.css").write_text(
+            "@font-face{src:url('../SamplePS-Regular.woff2')}\n"
+        )
+        for package_format, suffix in (("desktop", ".ttf"), ("web", ".woff2")):
+            with self.subTest(package_format=package_format):
+                result = self.package(package_format)
+                archive = Path(result["archive"])
+                self.assertEqual(archive.name, f"DeparturePixelZh-1.2.3-{package_format}.zip")
+                with TemporaryDirectory() as temporary, ZipFile(archive) as zip_file:
+                    zip_file.extractall(temporary)
+                    root = Path(temporary) / f"DeparturePixelZh-1.2.3-{package_format}"
+                    self.assertEqual({p.suffix for p in root.glob("SamplePS-Regular.*")}, {suffix})
+                    for name in (
+                        "OFL.txt",
+                        "NOTICE.md",
+                        "Licenses/Required.txt",
+                        "provenance.json",
+                    ):
+                        self.assertTrue((root / name).is_file(), name)
+                    for line in (root / "SHA256SUMS").read_text().splitlines():
+                        checksum, relative = line.split("  ", 1)
+                        self.assertEqual(
+                            checksum, hashlib.sha256((root / relative).read_bytes()).hexdigest()
+                        )
+                    if package_format == "web":
+                        verify_document_references(root / "web/fonts.css", root)
+                        verify_document_references(root / "specimens/index.html", root)
+                    else:
+                        self.assertFalse((root / "web/fonts.css").exists())
+                        self.assertFalse((root / "specimens/index.html").exists())
 
     def test_archive_is_deterministic_and_excludes_stale_outputs(self):
         (self.output / "Old-Regular.ttf").write_bytes(b"stale font")

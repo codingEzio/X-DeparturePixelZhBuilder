@@ -4,7 +4,9 @@
 
 Genera DeparturePixelZh y DeparturePixelZh Compact a partir de una receta versionada. Combina letras inglesas, caracteres chinos de estilo píxel e iconos para desarrolladores en una fuente monoespaciada.
 
-[Descargar fuentes DeparturePixelZh 0.1.0 (ZIP)](https://github.com/codingEzio/X-DeparturePixelZh/releases/download/v0.1.0/DeparturePixelZh-0.1.0.zip) · [Todas las versiones](https://github.com/codingEzio/X-DeparturePixelZh/releases)
+[TTF ZIP para escritorio](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-desktop.zip) · [WOFF2 ZIP para la web](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases/download/v0.1.1/DeparturePixelZh-0.1.1-web.zip) · [Todas las versiones](https://github.com/codingEzio/X-DeparturePixelZhBuilder/releases)
+
+Ambas descargas incluyen Standard y Compact, registros de origen, sumas de comprobación y todos los avisos de licencia. No necesitas el constructor para usar las fuentes.
 
 ![DeparturePixelZh — letras inglesas y caracteres chinos de estilo píxel en una fuente monoespaciada](assets/departurepixelzh-social-card.png)
 
@@ -31,7 +33,7 @@ La receta fija las URL de origen y los valores SHA-256. El constructor descarga 
 - `install` instala fuentes verificadas y guarda un registro y copias de seguridad. Si una instalación se interrumpe, se revierte antes de continuar con la siguiente.
 - `check-installed` compara los archivos instalados con el registro.
 - `sync` copia fuentes verificadas, avisos y registros de origen según un manifiesto del proyecto consumidor. Se detiene si los archivos gestionados han cambiado fuera de la herramienta.
-- `package` prepara un archivo comprimido a partir de los resultados comprobados.
+- `package --format desktop` crea un archivo TTF; `package --format web` crea uno WOFF2. El valor predeterminado `all` incluye ambos formatos.
 
 Consulta los argumentos con `uv run departurepixelzh-builder --help` o con `--help` en cada comando. La instalación y la sincronización se detienen ante cambios inesperados para que la recuperación se gestione de forma explícita.
 
